@@ -1,0 +1,4 @@
+GOOGLEDRIVE_URL_OPEN_TRANSACTIONS: https://docs.google.com/spreadsheets/d/1n96sotjICGR8pw7SL74KTwrCHO6hoqRuAc2Y_fbIJaA/edit?gid=0#gid=0
+GOOGLEDRIVE_URL_DOWNLOAD_TRANSACTIONS: https://docs.google.com/spreadsheets/d/1n96sotjICGR8pw7SL74KTwrCHO6hoqRuAc2Y_fbIJaA/gviz/tq?tqx=out:csv&sheet=Hourly%20Data%20Import
+GOOGLEDRIVE_URL_DOWNLOAD_SALES_ANNOTATIONS: https://docs.google.com/spreadsheets/d/1n96sotjICGR8pw7SL74KTwrCHO6hoqRuAc2Y_fbIJaA/gviz/tq?tqx=out:csv&sheet=Sales%20%26%20Comments
+GOOGLEDRIVE_URL_DOWNLOAD_GAMEVERSIONS_ANNOTATIONS: https://docs.google.com/spreadsheets/d/1n96sotjICGR8pw7SL74KTwrCHO6hoqRuAc2Y_fbIJaA/gviz/tq?tqx=out:csv&sheet=Gameversion
