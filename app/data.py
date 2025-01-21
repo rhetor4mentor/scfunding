@@ -21,12 +21,13 @@ def populate_session_state(cts: CompleteTimeSeries) -> None:
 
 def initialize_session_state():
     if 'cts' not in st.session_state:
-        logger.info("Initializing session state")
+        logger.info(f"Initializing session state (prexisting keys: {st.session_state.keys()})")
         cts = load_complete_time_series(refresh_counter=0)
         populate_session_state(cts)
 
 def refresh_session_state():
     if 'refresh_counter' not in st.session_state:
+        logger.warning("setting refresh counter to 0 as no such key was found in session_State")
         st.session_state['refresh_counter'] = 0
 
     st.session_state['refresh_counter'] += 1
