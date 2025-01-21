@@ -1,0 +1,12 @@
+endogenous:
+- delta_pledge
+- delta_citizens
+exogenous:
+- quarter
+- month
+- week_of_year
+- day_of_year
+- day_of_week
+- is_weekend
+- on_sale
+- days_since_current_patch_launch

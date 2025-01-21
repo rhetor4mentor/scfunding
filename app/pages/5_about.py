@@ -18,7 +18,7 @@ def about():
 
     with middle_left:
         st.header("Disclaimer")
-        st.markdown('''This is an unofficial [Star Citizen](https://robertsspaceindustries.com/) application, not affiliated with the Cloud Imperium Games.''')
+        st.markdown('''This is an unofficial [Star Citizen](https://robertsspaceindustries.com/) application, not affiliated with the Cloud Imperium Games. This app is also in an alpha state (perhaps suitably so). The modelling part, for instance, is very incomplete.''')
         st.image('https://robertsspaceindustries.com/i/2be4826ef804191d2ede49fed62b390ec15fdbd2/resize(840,672,cover,crop(840,672,0,0,2FFvzA2zeqoVY7xdzjgPLMPd3QhaUVt5raNdzxHRxAwxC5goA3hy9838QyR2qBqV45AwW7vEmCw1ki6uHEzF2fxUkw55iGKsVEikoLuDVBJDYuC5mMqWa6KtyHbyG))/75/sc-gamecard-5-4-840x672-.webp')
     
     with middle_middle:
@@ -29,7 +29,7 @@ def about():
 
     with middle_right:
         st.header('Author')
-        st.markdown('My name is [Rhethor4mentor](https://robertsspaceindustries.com/citizens/Rhethor4mentor). You may find me in-game, come and say hi!')
+        st.markdown('My name is [Rhethor4mentor](https://robertsspaceindustries.com/citizens/Rhethor4mentor). I am quite passionate about Star Citizen and data (analysis and modelling), so I used a bit of my spare time to find a small overlap between those two areas of interest. You may find me in-game, come and say hi!')
         st.image(os.path.join(logo_path, 'scfund_logo2_large.png'), use_container_width=False)
 
 

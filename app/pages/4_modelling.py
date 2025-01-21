@@ -1,5 +1,6 @@
 import streamlit as st
 from src.visuals import charts
+from src.modelling.train import load_possible_features
 
 def about():
     import streamlit as st
@@ -7,15 +8,21 @@ def about():
     from components.page_config import get_page_config
     from data import initialize_session_state
     get_page_config()
+    
     get_header(header='Time Series Modelling')
+    st.warning("I'm planning to provide some time series modelling that shed lights on what tends to influence both pledge and account growth. Bear with me, this will come in a future version of the app.")
 
     initialize_session_state()
 
     df = st.session_state['ts_daily']
     wf = st.session_state['ts_weekly']
 
+    features: dict = load_possible_features()
+    feature_list = [item for sublist in features.values() for item in sublist]
+
     top_left, top_top, top_right = st.columns([4, 4, 4], border=True)
     middle_left, middle_right = st.columns([10, 10], border=True)
+
 
     with top_left:
         st.header('Approach')
@@ -29,7 +36,7 @@ def about():
     with middle_left:
         st.header('Data')
 
-        st.dataframe(df)
+        st.dataframe(df[feature_list])
 
     with middle_right:
         st.header('Overview', help='The data used in modelling is at daily level. Here we aggregate it to weekly level for convenience.')
