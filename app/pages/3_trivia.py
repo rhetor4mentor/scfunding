@@ -58,7 +58,7 @@ def trivia():
     elif version in ['Alpha 3.18.0']:
         verb = 'were perhaps able to log into'
     elif version in ['Alpha 4.0']:
-        verb = 'jumping for the first time in'
+        verb = 'jumping to Pyro in'
     else:
         verb = 'testing'
 
