@@ -21,12 +21,12 @@ def about():
         st.header('Credits')
         st.markdown('''The entire CCU Games team, and in particular [R1scHwA](https://robertsspaceindustries.com/citizens/R1scHwA) for maintaining the Crowdfunding spreadsheet this site relies upon (as well as an awesome [application](https://ccugame.app/)!)''')
         st.markdown('''[Syncend](https://www.paypal.com/donate/?hosted_button_id=2EUW7MY8EDCWU) for hosting a [dashboard](https://ccugame.app/statistics/funding-dashboard) on CCU Games that served as a clear inspiration for this one!''')
-        st.image('images/made_by_the_community_large.png', use_container_width=False)
+        st.image('app/images/made_by_the_community_large.png', use_container_width=False)
 
     with middle_right:
         st.header('Author')
         st.markdown('My name is [Rhethor4mentor](https://robertsspaceindustries.com/citizens/Rhethor4mentor). You may find me in-game, come and say hi!')
-        st.image('images/scfund_logo2_large.png', use_container_width=False)
+        st.image('app/images/scfund_logo2_large.png', use_container_width=False)
 
 
 about()
