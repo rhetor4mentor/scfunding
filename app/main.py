@@ -35,11 +35,13 @@ def main_page():
     day_of_year = metrics['time']['last_updated'].dayofyear
     thirty_days_ago = metrics['time']['last_updated'] - pd.Timedelta(days=30)
     ts_daily = st.session_state['ts_daily']
+    ts_weekly = st.session_state['ts_weekly']
+    ts_annual = st.session_state['ts_annual']
     historical_periods = ts_daily[ts_daily['day_of_year']==day_of_year]
     last30_days_impact_pledges = observations.precedence(historical_periods, metric='pledge_prior_30_periods')
     last30_days_impact_citizens = observations.precedence(historical_periods, metric='citizens_prior_30_periods')
 
-    chart_funding = charts.plot_all_years(tp, metric='pledges')
+    chart_funding = charts.plot_all_years(ts_weekly, ts_annual, metric='pledges')
 
     get_topline_statistics()
 

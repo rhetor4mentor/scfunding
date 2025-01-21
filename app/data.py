@@ -14,6 +14,7 @@ def populate_session_state(cts: CompleteTimeSeries) -> None:
     st.session_state['cts'] = cts
     st.session_state['ts_daily'] = cts.get_time_series('D')
     st.session_state['ts_weekly'] = cts.get_time_series('W')
+    st.session_state['ts_annual'] = cts.get_time_series('YE')
     st.session_state['main_statistics'] = cts.transaction_parser.main_statistics
 
 def initialize_session_state():

@@ -125,7 +125,7 @@ def plot_line_chart(
     return alt.vconcat(chart, legend)
 
 
-def plot_all_years(tp: TransactionParser, metric="pledges", show_title: bool = True) -> alt.Chart:
+def plot_all_years(ts_weekly: pd.DataFrame, ts_annual: pd.DataFrame, metric="pledges", show_title: bool = True) -> alt.Chart:
     '''
     Main funding tracker visualisation
     '''
@@ -141,8 +141,6 @@ def plot_all_years(tp: TransactionParser, metric="pledges", show_title: bool = T
 
     x_axis = alt.X(f"delta_{x}:Q", title=None, axis=alt.Axis(format=x_format, labelOverlap=True), scale=alt.Scale(domainMin=0))
 
-    ts_weekly = tp.get_time_series('W')
-    ts_annual = tp.get_time_series('YE')
     tooltips = generate_tooltip(ts_weekly)
     tooltips_a = generate_tooltip(ts_annual)
     
