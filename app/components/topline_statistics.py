@@ -22,13 +22,13 @@ def get_topline_statistics():
             st.metric(label="Funding since 2012", 
                     value=f"${metrics['pledges']['total_historically']:,.0f}", 
                     delta=f"+${metrics['pledges']['total_this_year']:,.0f}", 
-                    delta_color="normal", 
+                    delta_color="off", 
                     help="This figures excludes subscriptions (not used for development) and private investments. It is solely based on pledges paid by backers.", 
                     label_visibility="visible", 
                 border=False)
 
             st.metric(label=f"Funding in {year}", 
-                    value=f"${metrics['pledges']['total_this_year']:,.0f}", 
+                    value=f"+${metrics['pledges']['total_this_year']:,.0f}", 
                     delta=f"{metrics['pledges']['pct_change_year_on_year']:+,.0%} vs {year-1}", 
                     delta_color="normal", 
                     help=f"Pledges reported since the beginning of the year. It is compared to funding in {year-1} at the same period of the year (to the exact hour).", 
@@ -47,7 +47,7 @@ def get_topline_statistics():
             st.metric(label="Accounts registered", 
                     value=f"{metrics['citizens']['total_historically']:,.0f}", 
                     delta=f"{metrics['citizens']['total_this_year']:+,.0f}", 
-                    delta_color="normal", 
+                    delta_color="off", 
                     help="Please keep in mind that not all accounts are paying accounts, and backers may own multiple accounts.", 
                     label_visibility="visible", 
                 border=False)
