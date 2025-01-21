@@ -71,7 +71,7 @@ def trivia():
 
     insight.write(f"""
     - Citizens were {verb} {version}
-    - {data_citizens.data['period'].iloc[0]} added a whole **${data_pledges.data['value'].iloc[0]:,.0f}** in new pledges (a pattern that was {pledge_commonality} ({utils.format_ordinal(pledge_percentile)} percentile)
+    - {data_citizens.data['period'].iloc[0]} added a whole **${data_pledges.data['value'].iloc[0]:,.0f}** in new pledges, a pattern that was {pledge_commonality} ({utils.format_ordinal(pledge_percentile)} percentile)
     - This brought the crowdfunding total to ${data_citizens.data['total_pledge'].iloc[0]/1e6:.1f}M.
     - During that day **{data_citizens.data['value'].iloc[0]:,.0f}** new accounts were opened, totalling {data_citizens.data['total_citizens'].iloc[0]:,.0f}. Such a pattern was {citizens_commonality} ({utils.format_ordinal(citizens_percentile)} percentile).
     {add_on}
