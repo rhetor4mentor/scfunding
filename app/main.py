@@ -6,17 +6,16 @@ from src.utils import format_ordinal
 from src.visuals import charts
 from src.stats import observations
 
-
 def main_page():
-    import streamlit as st
     from components.page_config import get_page_config
     from components.header import get_header
     from components.topline_statistics import get_topline_statistics
+
+    print('A', list(st.session_state.keys()))
     
     get_page_config()
     get_header()
     data.initialize_session_state()
-    data.check_and_refresh()
     
     # data
     metrics = st.session_state['main_statistics']
