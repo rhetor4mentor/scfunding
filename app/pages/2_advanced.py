@@ -14,7 +14,7 @@ def advanced():
     initialize_session_state()
     get_topline_statistics()
     
-    metrics = st.session_state['cts'].transaction_parser.main_statistics
+    metrics = st.session_state['main_statistics']
     year = metrics['time']['last_updated'].year
     ts_daily = st.session_state['ts_daily']
     ts_weekly = st.session_state['ts_weekly']
