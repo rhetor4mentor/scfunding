@@ -16,6 +16,7 @@ def main_page():
     get_page_config()
     get_header()
     data.initialize_session_state()
+    data.check_and_refresh()
     
     # data
     metrics = st.session_state['main_statistics']

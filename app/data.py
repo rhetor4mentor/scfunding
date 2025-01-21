@@ -1,7 +1,8 @@
 import streamlit as st
-from src.loading.loader import TransactionParser
-from src.loading.combined_signals import CompleteTimeSeries
+import time
+from datetime import datetime, timedelta
 from loguru import logger
+from src.loading.combined_signals import CompleteTimeSeries
 
 
 @st.cache_resource
@@ -16,6 +17,7 @@ def populate_session_state(cts: CompleteTimeSeries) -> None:
     st.session_state['ts_weekly'] = cts.get_time_series('W')
     st.session_state['ts_annual'] = cts.get_time_series('YE')
     st.session_state['main_statistics'] = cts.transaction_parser.main_statistics
+    st.session_state['last_refresh'] = datetime.now()
 
 def initialize_session_state():
     if 'cts' not in st.session_state:
@@ -31,3 +33,9 @@ def refresh_session_state():
     logger.info(f"Refreshing session state, refresh_counter={st.session_state['refresh_counter']}")
     cts = load_complete_time_series(st.session_state['refresh_counter'])
     populate_session_state(cts)
+
+def check_and_refresh():
+    if 'last_refresh' in st.session_state:
+        elapsed_time = datetime.now() - st.session_state['last_refresh']
+        if elapsed_time > timedelta(minutes=45):
+            refresh_session_state()
