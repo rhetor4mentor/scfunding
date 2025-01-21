@@ -84,7 +84,7 @@ def trivia():
             label='Go back in time',
             index=0,
             options=st.session_state['cts'].funding_years[::-1],
-            help="Note that the first row indicates what patch was live on 1st of January, which typically means that it was release the year prior. The row index thus gives you the number of patches that were released that year. In this version we do not distinguish between major and minor patches."
+            help="Note that the first row indicates what patch was live on 1st of January, which typically means that it was released the year prior. The row index thus gives you the number of patches that were released that year. In this version we do not distinguish between major and minor patches."
         )
 
         if selected_year:
@@ -109,13 +109,13 @@ def trivia():
 
             with middle_left:
                 st.metric(label='Big patch releases', 
-                          help='How many large patch went live during the year',
+                          help='How many large patches went live during the year.',
                           value=len(year_view[['major', 'minor']].drop_duplicates()) - 1,
                 )
 
             with middle_right:
                 st.metric(label='Total releases', 
-                          help='How many patches went live, including .X ones?',
+                          help='How many patches went live, including .X ones.',
                           value=len(year_view) - 1,
                 )
 
