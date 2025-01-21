@@ -110,7 +110,7 @@ def plot_line_chart(
         text='label:N',
         color=alt.Color('color:N', scale=None, legend=alt.Legend(title="Legend"))
     ).properties(
-        width=300,
+        width='container',
         height=25
     )
 
@@ -153,13 +153,13 @@ def plot_all_years(ts_weekly: pd.DataFrame, ts_annual: pd.DataFrame, metric="ple
         x=x_axis,
         y=alt.Y("year:O", title="Year"),
         tooltip=tooltips,
-    ).properties(width=250, title="Yearly totals",)
+    ).properties(width=200, title="Yearly totals",)
 
     chart_year_total = alt.Chart(ts_annual).mark_bar().encode(
         x=x_axis,
         color=alt.Color('year:N', legend=None).scale(scheme="category20c"),
         tooltip=tooltips_a,
-    ).properties(width=250)
+    ).properties(width=200)
 
     chart_quarters = alt.Chart(ts_weekly).mark_bar().encode(
         x=x_axis,
@@ -167,14 +167,14 @@ def plot_all_years(ts_weekly: pd.DataFrame, ts_annual: pd.DataFrame, metric="ple
         color=alt.Color("month:N"),
         tooltip=tooltips,
         column=alt.Column("quarter_label:O", title=None, spacing=50),
-    ).properties(width=150, title="Breakdown by quarter")
+    ).properties(width=120, title="Breakdown by quarter")
 
     chart_quarters_totals = alt.Chart(ts_weekly).mark_bar().encode(
         x=x_axis,
         color=alt.Color("month:N"),
         tooltip=tooltips,
         column=alt.Column("quarter_label:O", title=None, spacing=50),
-    ).properties(width=150,)
+    ).properties(width=120,)
 
     chart = ((chart_year & chart_year_total) | ( chart_quarters & chart_quarters_totals )).resolve_scale(color="independent")
 
@@ -189,11 +189,11 @@ def plot_all_years(ts_weekly: pd.DataFrame, ts_annual: pd.DataFrame, metric="ple
     return chart
 
 
-def plot_transactions_year_to_date(
+def plot_transactions_years_to_date(
         ts: pd.DataFrame, 
         metric="pledges",
-        date: pd.Timestamp = None, 
-        widths: List[int] = [450, 15]) -> alt.Chart:
+        date: pd.Timestamp = None,
+        ) -> alt.Chart:
     '''
     Every year of funding, up to current day of year.
     '''
@@ -214,15 +214,24 @@ def plot_transactions_year_to_date(
 
     if metric == "pledges":
         x = "total_pledge_in_year"
-        x_axis = alt.X(f"{x}:Q", title="$", axis=alt.Axis(format='$,.0f', labelOverlap=True), scale=alt.Scale(domainMin=0))
         text_format = '$,.0f'
     elif metric == "citizens":
         x = "total_citizens_in_year"
-        x_axis = alt.X(f"{x}:Q", title="New accounts", axis=alt.Axis(format=',.0f', labelOverlap=True), scale=alt.Scale(domainMin=0))
         text_format = '+,.0f'
     else:
         raise ValueError(f"Only values permitted are 'pledges' and 'citizens', not {metric}")
 
+    x_axis = alt.X(
+        f"{x}:Q",
+        title="",
+        axis=alt.Axis(
+            labelOverlap=True,
+            labelExpr="'$' + format(datum.value / 1000, ',.0f') + 'K'" if metric == "pledges" else "format(datum.value / 1000, ',.0f') + 'K'"
+        ),
+        scale=alt.Scale(domainMin=0)
+    )
+
+    # x_axis = alt.X(f"{x}:Q", title="", axis=alt.Axis(labelOverlap=True, labelExpr=f"'{x_format}'" ,), scale=alt.Scale(domainMin=0))
     year_filter = ts.loc[date][time_metric]
     latest_value = ts.loc[date, x]
     df = ts.query(f"{time_metric}=={year_filter}").copy()
@@ -242,27 +251,25 @@ def plot_transactions_year_to_date(
         tooltip=tooltips,
     )
 
-    if widths[0] is not None:
-        bars = bars.properties(width=widths[0])
-
-    text = alt.Chart(df).mark_text(
+    text = bars.mark_text(
         align='left',
         baseline='middle',
-        dx=2,
-        color='black',
+        dx=3,
+        color='black'
     ).encode(
-        x=alt.value(0),
-        y=alt.Y('year:O', axis=None, sort='-y'),
         text=alt.Text(x, format=text_format)
-    ).properties(
-        width=widths[1]
     )
 
-    chart = alt.hconcat(bars, text, spacing=10).resolve_scale(
-        x='independent', y='shared'
-    ).configure_view(strokeWidth=0).properties(title={
-        'text': f"Year-on-Year comparison of {metric.title()} performance", 
-        'subtitle': f"As of {datetime.strftime(date, '%a %d %B %Y')}"})
+    # Combine the bars and text
+    chart = (bars + text).resolve_scale(
+        x='shared', y='shared'
+    ).configure_view(strokeWidth=0).properties(
+        width='container',
+        title={
+            'text': f"Year-on-Year comparison of {metric.title()} performance", 
+            'subtitle': f"As of {datetime.strftime(date, '%a %d %B %Y')}"
+        }
+    )
 
     return chart
 
@@ -317,7 +324,7 @@ def plot_current_vs_last_year(
         x=x_axis,
         y=y_axis,
         color=alt.Color("year:O", sort=[year_filter, year_filter-1], scale=alt.Scale(range=YEAR_COMPARISON_COLORS[::-1]), title="Year"),
-    ).properties(width=500)
+    ).properties(width='container')
 
 
     hover = alt.selection_point(
