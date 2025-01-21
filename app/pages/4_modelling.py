@@ -28,7 +28,9 @@ def about():
         st.header('Approach')
 
     with top_top:
-        st.header('Features')
+        st.header('Features', help='What variables are to be evaluated in the model?')
+        with st.expander(label='Feature details'):
+            st.write(features)
         
     with top_right:
         st.header('Takeaways')
@@ -44,7 +46,8 @@ def about():
         line_chart = charts.plot_line_chart(
             wf, 
             first_line_settings={ 'x': 'delta_pledge','type': 'Q','format': '$,.0f','title': 'Pledges ($)' }, 
-            second_line_settings={ 'x': 'delta_citizens','type': 'Q','format': ',.0f','title': 'Accounts' }    
+            second_line_settings={ 'x': 'delta_citizens','type': 'Q','format': ',.0f','title': 'Accounts' }, 
+            title='Pledges and account creations over time',   
         )
 
         st.altair_chart(line_chart, use_container_width=True)
