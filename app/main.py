@@ -7,14 +7,6 @@ from src.visuals import charts
 from src.stats import observations
 
 
-@st.cache_data
-def get_ts_weekly(_tp: TransactionParser) -> pd.DataFrame:
-    return _tp.get_time_series('W')
-
-@st.cache_data
-def get_ts_daily(_tp: TransactionParser) -> pd.DataFrame:
-    return _tp.get_time_series('D')
-
 def main_page():
     import streamlit as st
     from components.page_config import get_page_config
@@ -25,11 +17,6 @@ def main_page():
     get_header()
     data.initialize_session_state()
     
-    tp = st.session_state['cts'].transaction_parser
-
-    # settings
-    CAP_LAST_DAYS: int = None
-
     # data
     metrics = st.session_state['main_statistics']
     day_of_year = metrics['time']['last_updated'].dayofyear
@@ -46,7 +33,6 @@ def main_page():
     get_topline_statistics()
 
     middle_left, middle_right = st.columns([16,4], border=True)
-
 
     with middle_left:
         st.header("Funding History")
