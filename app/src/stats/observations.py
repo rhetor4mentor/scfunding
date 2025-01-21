@@ -93,6 +93,8 @@ def precedence(df: pd.DataFrame, timestamp: pd.Timestamp = None,  metric: str = 
 
     output = pd.DataFrame({
         'period': [df.loc[timestamp, 'period']],
+        'version': [df.loc[timestamp, 'version_id']],
+        'on_sale': [df.loc[timestamp, 'on_sale']],
         'period frequency': pd.infer_freq(df.index),
         'metric': [metric],
         'value': [metric_value_at_timestamp],
@@ -100,7 +102,9 @@ def precedence(df: pd.DataFrame, timestamp: pd.Timestamp = None,  metric: str = 
         'pct_better_periods_prior': [percentage_prior],
         'percentile': percentile_rank,
         'rank': rank_at_timestamp,
-        'n periods': [len(df)]
+        'n periods': [len(df)],
+        'total_pledge': [df.loc[timestamp, 'total_pledge']],
+        'total_citizens': [df.loc[timestamp, 'total_citizens']],
     }, index=[timestamp])
 
     formats: dict = {

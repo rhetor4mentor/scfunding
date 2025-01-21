@@ -32,7 +32,7 @@ def trivia():
             label='Pick a day', 
             value="today", 
             min_value=None, 
-            max_value="today", 
+            max_value=utils.yesterday(), 
             key=None, 
             help="We'll tell you some details about crowdfunding back then.", 
             on_change=None, 
@@ -52,9 +52,29 @@ def trivia():
     citizens_percentile = data_citizens.data['percentile'].iloc[0]
     citizens_commonality: str = quality_pattern(citizens_percentile)
 
+    version = data_pledges.data['version'].iloc[0]
+    if version in ['Pre-Release']:
+        verb = 'waiting while SC was in'
+    elif version in ['Alpha 3.18.0']:
+        verb = 'were perhaps able to log into'
+    elif version in ['Alpha 4.0']:
+        verb = 'jumping for the first time in'
+    else:
+        verb = 'testing'
+
+    on_sale = data_pledges.data['on_sale'].iloc[0]
+
+    if on_sale > 0:
+        add_on = '- There was a sale that day.'
+    else:
+        add_on = ''
+
     insight.write(f"""
-    - Funding-wise, {data_citizens.data['period'].iloc[0]} recorded **+${data_pledges.data['value'].iloc[0]:,.0f}** of extra funding, a pattern that was {pledge_commonality} ({utils.format_ordinal(pledge_percentile)} percentile).
-    - In terms of bringing more backers, that day saw **{data_citizens.data['value'].iloc[0]:,.0f}** new accounts, a pattern that was {citizens_commonality} ({utils.format_ordinal(citizens_percentile)} percentile).
+    - Citizens were {verb} {version}
+    - {data_citizens.data['period'].iloc[0]} added a whole **${data_pledges.data['value'].iloc[0]:,.0f}** in new pledges (a pattern that was {pledge_commonality} ({utils.format_ordinal(pledge_percentile)} percentile)
+    - This brought the crowdfunding total to ${data_citizens.data['total_pledge'].iloc[0]/1e6:.1f}M.
+    - During that day **{data_citizens.data['value'].iloc[0]:,.0f}** new accounts were opened, totalling {data_citizens.data['total_citizens'].iloc[0]:,.0f}. Such a pattern was {citizens_commonality} ({utils.format_ordinal(citizens_percentile)} percentile).
+    {add_on}
     """)
 
     with middle_right:

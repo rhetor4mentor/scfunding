@@ -92,7 +92,6 @@ def format_ordinal(x: float) -> str:
         x = int(round(x))
         return f"{x}{('th' if 4 <= x % 100 <= 20 else {1: 'st', 2: 'nd', 3: 'rd'}.get(x % 10, 'th'))}"
 
-
 def load_config() -> dict:
     script_dir = os.path.dirname(os.path.abspath(__file__))
     path = os.path.join(script_dir, 'config.yaml')
@@ -155,3 +154,6 @@ def parse_version(version: str):
         return major, minor, patch
     else:
         return None, None, None
+    
+def yesterday():
+    return datetime.datetime.now() - datetime.timedelta(days=1)
