@@ -1,4 +1,4 @@
-# Streamlit SC Fund Analyser app
+# Streamlit SC Fund Analyzer app
 
 Run locally with
 

@@ -2,7 +2,7 @@ import streamlit as st
 import os
 
 TITLE = "SC Fund"
-HEADER = "SC Funding Analyser"
+HEADER = "SC Funding Analyzer"
 
 def get_header(page_title: str = TITLE, header: str = HEADER):
     st.title(header)
