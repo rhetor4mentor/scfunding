@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+import inspect
 
 from loguru import logger
 from .. import utils
@@ -154,12 +155,16 @@ class TimeSeriesConstructor:
     def get(self, 
             freq: str = 'D', 
             last_periods: int = 30,
-            append_time_metrics: bool = True,
+            append_time_metrics: bool = True
         ) -> pd.DataFrame:
         if freq.startswith('W'):
             freq = freq + '-SUN'
         
-        logger.info(f"Providing time series at desired frequency ({freq})")
+        caller_frame = inspect.currentframe().f_back
+        caller_class = caller_frame.f_locals.get('self', None)
+        caller_name = caller_class.__class__.__name__ if caller_class else "Unknown"
+
+        logger.info(f"Providing time series at desired frequency ({freq}) for caller: {caller_name}")
 
         time_series = self.deepest_time_series[list(self.aggregation_functions.keys())].resample(freq,).agg(self.aggregation_functions).ffill()
         if isinstance(time_series.columns, pd.MultiIndex):
