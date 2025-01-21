@@ -32,14 +32,9 @@ def main_page():
 
     get_topline_statistics()
 
-    middle_left, middle_right = st.columns([16,4], border=True)
+    middle_left, middle_right = st.columns([4,16], border=True)
 
     with middle_left:
-        st.header("Funding History")
-
-        st.altair_chart(chart_funding, use_container_width=True,)
-
-    with middle_right:
         st.header("Recent Impact")
 
         st.metric(
@@ -60,6 +55,10 @@ def main_page():
                     To assess this, let's compare the last 30 days' figures to prior years at the same periods.
                     ''')
 
+    with middle_right:
+        st.header("Funding History")
+
+        st.altair_chart(chart_funding, use_container_width=True,)
 
 
 main_page()
