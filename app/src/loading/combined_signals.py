@@ -15,20 +15,24 @@ class CompleteTimeSeries:
         self.complete_time_series = self.get_time_series(freq='D')
 
     def get_time_series(self, freq: str ='D') -> pd.DataFrame:
-        transactions = self.transaction_parser.get_time_series(freq=freq)
+        transactions = self.transaction_parser.get_time_series(freq=freq, append_time_metrics=False)
         calendar_events = self.calendar_event_parser.get_time_series(freq=freq, append_time_metrics=False)
         game_versions = self.game_version_parser.get_time_series_enriched(freq=freq, append_time_metrics=False)
 
-        max_date = max(
-            transactions.index.max(),
-            calendar_events.index.max(),
-            game_versions.index.max()
-        )
+        # max_date = max(
+        #     transactions.index.max(),
+        #     calendar_events.index.max(),
+        #     game_versions.index.max()
+        # )
+
+        max_date = transactions.index.max()
 
         combined_df = transactions.join(calendar_events, how='outer')
         combined_df = combined_df.join(game_versions, how='outer')
         combined_df = combined_df.loc[:max_date]
         combined_df.fillna(method='ffill', inplace=True)
+
+        combined_df = self.transaction_parser.time_series_constructor.add_time_metrics(time_series=combined_df)
         
         output = combined_df.dropna(subset=['delta_pledge']).asfreq(freq)
         output_max_date = combined_df.index.max()
