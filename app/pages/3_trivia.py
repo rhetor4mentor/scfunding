@@ -24,6 +24,8 @@ def trivia():
 
     initialize_session_state()
     
+    st.info("Data on game versions and sale events may be inaccurate for most recent days, since the data reflects the current state of the Crowdfunding Spreadsheet v3.0.")
+
     middle_left, middle_right = st.columns([10, 10], border=True)
     
     with middle_left:
@@ -76,6 +78,7 @@ def trivia():
     - During that day **{data_citizens.data['value'].iloc[0]:,.0f}** new accounts were opened, totalling {data_citizens.data['total_citizens'].iloc[0]:,.0f}. Such a pattern was {citizens_commonality} ({utils.format_ordinal(citizens_percentile)} percentile).
     {add_on}
     """)
+
 
     with middle_right:
         st.header('Patch History')
