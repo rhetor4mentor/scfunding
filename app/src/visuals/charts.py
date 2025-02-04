@@ -266,8 +266,8 @@ def plot_transactions_years_to_date(
     ).configure_view(strokeWidth=0).properties(
         width='container',
         title={
-            'text': f"Year-on-Year comparison of {metric.title()} performance", 
-            'subtitle': f"As of {datetime.strftime(date, '%a %d %B %Y')}"
+            'text': f"{metric.title()} Year-on-Year as of {datetime.strftime(date, '%a %d %B %Y')}", 
+            'subtitle': f"Each year's figures are taken at {utils.format_to_title(time_metric)} {year_filter}"
         }
     )
 
