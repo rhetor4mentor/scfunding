@@ -93,8 +93,8 @@ def precedence(df: pd.DataFrame, timestamp: pd.Timestamp = None,  metric: str = 
 
     output = pd.DataFrame({
         'period': [df.loc[timestamp, 'period']],
-        'version': [df.loc[timestamp, 'version_id']],
-        'on_sale': [df.loc[timestamp, 'on_sale']],
+        'version': [df.loc[timestamp, 'version_id'] if 'version_id' in df.columns else None],
+        'on_sale': [df.loc[timestamp, 'on_sale'] if 'on_sale' in df.columns else None],
         'period frequency': pd.infer_freq(df.index),
         'metric': [metric],
         'value': [metric_value_at_timestamp],
