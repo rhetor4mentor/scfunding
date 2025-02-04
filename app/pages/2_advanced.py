@@ -31,7 +31,15 @@ def advanced():
 
     with middle_right:
         st.header(f'{year} Progress')
-        chart_race_to_dayofyear = charts.plot_transactions_years_to_date(ts_daily, metric='pledges')
-        st.altair_chart(chart_race_to_dayofyear, use_container_width=True)
+        chart_race_to_dayofyear_pledges = charts.plot_transactions_years_to_date(ts_daily, metric='pledges')
+        chart_race_to_dayofyear_citizens = charts.plot_transactions_years_to_date(ts_daily, metric='citizens')
+
+        tab1, tab2 = st.tabs(["Pledges", "Citizens"])
+
+        with tab1:
+            st.altair_chart(chart_race_to_dayofyear_pledges, use_container_width=True)
+
+        with tab2:  
+            st.altair_chart(chart_race_to_dayofyear_citizens, use_container_width=True)
 
 advanced()
