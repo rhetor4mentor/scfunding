@@ -349,17 +349,14 @@ def plot_transactions_years_to_date(
     )
 
     # Combine the bars and text
-    chart = (
-        (bars + text)
-        .resolve_scale(x="shared", y="shared")
-        .configure_view(strokeWidth=0)
-        .properties(
-            width="container",
-            title={
-                "text": f"{metric.title()} Year-on-Year as of {datetime.strftime(date, '%a %d %B %Y')}",
-                "subtitle": f"Each year's figures are taken at {utils.format_to_title(time_metric)} {year_filter}",
-            },
-        )
+    chart = (bars + text).resolve_scale(
+        x='shared', y='shared'
+    ).configure_view(strokeWidth=0).properties(
+        width='container',
+        title={
+            'text': f"{metric.title()} Year-on-Year as of {datetime.strftime(date, '%a %d %B %Y')}", 
+            'subtitle': f"Each year's figures are taken at {utils.format_to_title(time_metric)} {year_filter}"
+        }
     )
 
     return chart
