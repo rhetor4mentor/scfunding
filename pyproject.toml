@@ -1,0 +1,31 @@
+[project]
+name = "scfunding"
+version = "0.1.0"
+description = "scfunding web app"
+authors = [
+    {name = "Rhetor4Mentor",email = "rhethor4mentor@gmail.com"}
+]
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "altair (>=5.5.0,<6.0.0)",
+    "streamlit (>=1.42.2,<2.0.0)",
+    "pingouin (>=0.5.5,<0.6.0)",
+    "scipy (>=1.15.2,<2.0.0)",
+    "tqdm (>=4.67.1,<5.0.0)",
+    "pydantic (>=2.10.6,<3.0.0)",
+    "statsmodels (>=0.14.4,<0.15.0)",
+    "pandas (>=2.2.3,<3.0.0)",
+    "pyaml (>=25.1.0,<26.0.0)",
+    "vega (>=4.1.0,<5.0.0)",
+    "prophet (>=1.1.6,<2.0.0)",
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.group.dev.dependencies]
+ipykernel = "^6.29.5"
+pre-commit = "^4.1.0"
