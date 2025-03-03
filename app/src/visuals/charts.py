@@ -56,22 +56,12 @@ def generate_tooltip(dataframe: pd.DataFrame) -> List[alt.Tooltip]:
 
 
 def plot_line_chart(
-    dataframe: pd.DataFrame,
-    index: str = "datetime_utc",
-    title: str = None,
-    first_line_settings: dict = {
-        "x": "total_pledge",
-        "type": "Q",
-        "format": "$,.0f",
-        "title": "Total Pledges ($)",
-    },
-    second_line_settings: dict = {
-        "x": "total_citizens",
-        "type": "Q",
-        "format": ",.0f",
-        "title": "Total Citizens",
-    },
-) -> alt.Chart:
+        dataframe: pd.DataFrame,
+        index: str = 'datetime_utc',
+        title: str = None,
+        first_line_settings: dict = {'x': 'total_pledge', 'type': 'Q', 'format': '$,.0f', 'title': 'Total Pledges ($)'},
+        second_line_settings: dict = {'x': 'total_citizens', 'type': 'Q', 'format': ',.0f', 'title': 'Total Citizens'},
+        ) -> alt.Chart:
     """
     Produces a line plot for total_citizens and total_pledge using Altair.
 
@@ -92,7 +82,7 @@ def plot_line_chart(
 
     tooltips = generate_tooltip(df)
 
-    base = alt.Chart(df).encode(x=alt.X(f"{index}:T", title=""), tooltip=tooltips)
+    base = alt.Chart(df).encode(x=alt.X(f'{index}:T', title=''), tooltip=tooltips)
 
     if len([s for s in settings if s is not None]) == 1:
         base = base.interactive()
@@ -107,13 +97,9 @@ def plot_line_chart(
     for i, line_settings in enumerate(settings):
         if line_settings is not None:
             line = base.mark_line().encode(
-                y=alt.Y(
-                    f"{line_settings['x']}:{line_settings['type']}",
-                    axis=alt.Axis(
-                        title=line_settings["title"], format=line_settings["format"]
-                    ),
-                ),
-                color=alt.value(colors[i]),
+                y=alt.Y(f"{line_settings['x']}:{line_settings['type']}",
+                        axis=alt.Axis(title=line_settings['title'], format=line_settings['format'])),
+                color=alt.value(colors[i])
             )
             lines_and_points.append(line)
             legend_data.append({"label": line_settings["title"], "color": colors[i]})
@@ -193,6 +179,10 @@ def plot_all_years(
     tooltips = generate_tooltip(ts_weekly)
     tooltips_a = generate_tooltip(ts_annual)
 
+    ts_weekly['quarter_label'] = ts_weekly['quarter'].apply(lambda x: f"Q{x}")
+    total = ts_weekly.tail(1)[f'total_{x}'].iloc[0]
+    subtitle = (f"{total:,.0f} " if metric != "pledges" else f"${total:,.0f} ") + "historically"
+
     ts_weekly["quarter_label"] = ts_weekly["quarter"].apply(lambda x: f"Q{x}")
     total = ts_weekly.tail(1)[f"total_{x}"].iloc[0]
     subtitle = (
@@ -267,10 +257,10 @@ def plot_all_years(
 
 
 def plot_transactions_years_to_date(
-    ts: pd.DataFrame,
-    metric="pledges",
-    date: pd.Timestamp = None,
-) -> alt.Chart:
+        ts: pd.DataFrame,
+        metric="pledges",
+        date: pd.Timestamp = None,
+        ) -> alt.Chart:
     """
     Every year of funding, up to current day of year.
     """
@@ -354,7 +344,7 @@ def plot_transactions_years_to_date(
     ).configure_view(strokeWidth=0).properties(
         width='container',
         title={
-            'text': f"{metric.title()} Year-on-Year as of {datetime.strftime(date, '%a %d %B %Y')}", 
+            'text': f"{metric.title()} Year-on-Year as of {datetime.strftime(date, '%a %d %B %Y')}",
             'subtitle': f"Each year's figures are taken at {utils.format_to_title(time_metric)} {year_filter}"
         }
     )
@@ -363,12 +353,12 @@ def plot_transactions_years_to_date(
 
 
 def plot_current_vs_last_year(
-    ts: pd.DataFrame,
-    metric: str = "pledges",
-    date: pd.Timestamp = None,
-    cap_last_x_days: int = None,
-    show_title: bool = True,
-) -> alt.Chart:
+        ts: pd.DataFrame,
+        metric: str = 'pledges',
+        date: pd.Timestamp = None,
+        cap_last_x_days: int = None,
+        show_title: bool = True,
+    ) -> alt.Chart:
     """
     Line plot that compares current year to previous year
     If cap_last_x_days is populated looks at the past x days
@@ -465,7 +455,8 @@ def plot_current_vs_last_year(
         .add_params(hover)
     )
 
-    chart = lines + points + dynamic_tooltip
+    chart = (lines + points + dynamic_tooltip)
+
 
     if show_title:
         chart = chart.properties(

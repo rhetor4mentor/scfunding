@@ -105,21 +105,28 @@ def precedence(
     metric_rank = df[metric].rank(ascending=False)
     rank_at_timestamp = metric_rank.loc[timestamp]
 
-    output = pd.DataFrame({
-        'period': [df.loc[timestamp, 'period']],
-        'version': [df.loc[timestamp, 'version_id'] if 'version_id' in df.columns else None],
-        'on_sale': [df.loc[timestamp, 'on_sale'] if 'on_sale' in df.columns else None],
-        'period frequency': pd.infer_freq(df.index),
-        'metric': [metric],
-        'value': [metric_value_at_timestamp],
-        'pct_better_periods' : [percentage_all],
-        'pct_better_periods_prior': [percentage_prior],
-        'percentile': percentile_rank,
-        'rank': rank_at_timestamp,
-        'n periods': [len(df)],
-        'total_pledge': [df.loc[timestamp, 'total_pledge']],
-        'total_citizens': [df.loc[timestamp, 'total_citizens']],
-    }, index=[timestamp])
+    output = pd.DataFrame(
+        {
+            "period": [df.loc[timestamp, "period"]],
+            "version": [
+                df.loc[timestamp, "version_id"] if "version_id" in df.columns else None
+            ],
+            "on_sale": [
+                df.loc[timestamp, "on_sale"] if "on_sale" in df.columns else None
+            ],
+            "period frequency": pd.infer_freq(df.index),
+            "metric": [metric],
+            "value": [metric_value_at_timestamp],
+            "pct_better_periods": [percentage_all],
+            "pct_better_periods_prior": [percentage_prior],
+            "percentile": percentile_rank,
+            "rank": rank_at_timestamp,
+            "n periods": [len(df)],
+            "total_pledge": [df.loc[timestamp, "total_pledge"]],
+            "total_citizens": [df.loc[timestamp, "total_citizens"]],
+        },
+        index=[timestamp],
+    )
 
     formats: dict = {
         "pct_better_periods": utils.format_percentage,

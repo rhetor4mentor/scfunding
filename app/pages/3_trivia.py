@@ -25,8 +25,10 @@ def trivia():
     get_header()
 
     initialize_session_state()
-    
-    st.info("Data on game versions and sale events may be inaccurate for most recent days, since the data reflects the current state of the Crowdfunding Spreadsheet v3.0.")
+
+    st.info(
+        "Data on game versions and sale events may be inaccurate for most recent days, since the data reflects the current state of the Crowdfunding Spreadsheet v3.0."
+    )
 
     middle_left, middle_right = st.columns([10, 10], border=True)
 
@@ -91,7 +93,6 @@ def trivia():
     {add_on}
     """
     )
-
 
     with middle_right:
         st.header("Patch History")
