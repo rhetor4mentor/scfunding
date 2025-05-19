@@ -1858,6 +1858,17 @@ files = [
 ]
 
 [[package]]
+name = "millify"
+version = "0.1.1"
+description = "Convert long numbers into a human-readable format in Python"
+optional = false
+python-versions = "*"
+groups = ["main"]
+files = [
+    {file = "millify-0.1.1.tar.gz", hash = "sha256:619defdc98b6d23f941b5ce4aaf4bf87a0e0f64cd0446ffa299be94486597f1a"},
+]
+
+[[package]]
 name = "mistune"
 version = "3.1.2"
 description = "A sane and fast Markdown parser with useful plugins and renderers"
@@ -4077,4 +4088,4 @@ viz = ["cartopy", "matplotlib", "nc-time-axis", "seaborn"]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.12"
-content-hash = "f735fc474165324b2a28c8b7050dd721568db94e1c6cea2c59ccaab1731779ac"
+content-hash = "80650c783f8bc40f2e01cdf47285779d5cbc20bfba97afc827484484bdb6ce8b"

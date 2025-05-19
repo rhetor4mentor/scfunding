@@ -30,10 +30,10 @@ def load_complete_time_series(refresh_time: datetime) -> CompleteTimeSeries:
 def populate_session_state(cts: CompleteTimeSeries) -> None:
     logger.info("Populating session state with complete time series data")
     st.session_state["cts"] = cts
+    st.session_state["main_statistics"] = cts.transaction_parser.main_statistics
     st.session_state["ts_daily"] = cts.get_time_series("D")
     st.session_state["ts_weekly"] = cts.get_time_series("W")
     st.session_state["ts_annual"] = cts.get_time_series("YE")
-    st.session_state["main_statistics"] = cts.transaction_parser.main_statistics
     st.session_state["last_refresh"] = datetime.now()
 
 
