@@ -1,9 +1,7 @@
 import streamlit as st
 from src.visuals import charts
-from src.utils import format_timedelta
-from data import refresh_session_state
 
-CAP_LAST_DAYS: int = 30
+CAP_LAST_DAYS: int = None
 
 
 def get_topline_statistics():
@@ -17,7 +15,7 @@ def get_topline_statistics():
         ts_daily, metric="citizens", show_title=False, cap_last_x_days=CAP_LAST_DAYS
     ).properties(height=250)
 
-    top_left, top_middle, top_right = st.columns([8, 8, 4], border=True)
+    top_left, top_middle = st.columns([8, 8], border=True)
 
     with top_left:
 
@@ -81,16 +79,3 @@ def get_topline_statistics():
                 chart_citizens_recent, use_container_width=True, theme="streamlit"
             )
 
-    with top_right:
-        st.metric(
-            label="Last data update",
-            value=metrics["time"]["last_updated"].strftime("%a %d %b %Y"),
-            delta=format_timedelta(td=metrics["time"]["time_since_measure"]),
-            delta_color="off",
-            help="Based on the last hourly transaction record captured at last refresh.",
-            label_visibility="visible",
-            border=False,
-        )
-
-        if st.button("Refresh"):
-            refresh_session_state()
