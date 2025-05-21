@@ -1,0 +1,13 @@
+quarter_months:
+  "#c6dbef"  # Jan - Q1 light blue
+  "#6baed6"  # Feb - Q1 medium blue
+  "#2171b5"  # Mar - Q1 dark blue
+  "#fdd0a2"  # Apr - Q2 light orange
+  "#fdae6b"  # May - Q2 medium orange
+  "#e6550d"  # Jun - Q2 dark orange
+  "#c7e9c0"  # Jul - Q3 light green
+  "#74c476"  # Aug - Q3 medium green
+  "#238b45"  # Sep - Q3 dark green
+  "#dadaeb"  # Oct - Q4 light purple
+  "#9e9ac8"  # Nov - Q4 medium purple
+  "#54278f"  # Dec - Q4 dark purple

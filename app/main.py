@@ -1,6 +1,8 @@
 import data
 import streamlit as st
 import pandas as pd
+from millify import millify
+
 from src.loading.loader import TransactionParser
 from src.utils import format_ordinal
 from src.visuals import charts
@@ -25,7 +27,6 @@ def main_page():
     thirty_days_ago = metrics["time"]["last_updated"] - pd.Timedelta(days=30)
     ts_daily = st.session_state["ts_daily"]
     ts_weekly = st.session_state["ts_weekly"]
-    ts_annual = st.session_state["ts_annual"]
     historical_periods = ts_daily[ts_daily["day_of_year"] == day_of_year]
     last30_days_impact_pledges = observations.precedence(
         historical_periods, metric="pledge_prior_30_periods"
@@ -34,7 +35,7 @@ def main_page():
         historical_periods, metric="citizens_prior_30_periods"
     )
 
-    chart_funding = charts.plot_all_years(ts_weekly, ts_annual, metric="pledges")
+    chart_funding = charts.plot_all_years(ts_weekly, metric="pledges")
 
     get_topline_statistics()
 
@@ -45,23 +46,28 @@ def main_page():
 
         st.metric(
             label="Funding in last 30 days",
-            value=f"${last30_days_impact_pledges.data['value'].iloc[0]:,.0f}",
-            delta=f"Ranking {format_ordinal(last30_days_impact_pledges.data['rank'].iloc[0])} (out of {last30_days_impact_pledges.data['n periods'].iloc[0]} similar periods)",
+            value=f"+${millify(last30_days_impact_pledges.data['value'].iloc[0], precision=2)}",
+            delta=f"Ranking: {format_ordinal(last30_days_impact_pledges.data['rank'].iloc[0])}/{last30_days_impact_pledges.data['n periods'].iloc[0]}",
             delta_color="off",
+            help=f"Ranking of year-on-year 30 days periods at the same day-of-year, for the whole of Star Citizen's funding history.",
         )
 
         st.metric(
             label="Account openings in last 30 days",
-            value=f"+{last30_days_impact_citizens.data['value'].iloc[0]:,.0f}",
-            delta=f"Ranking {format_ordinal(last30_days_impact_citizens.data['rank'].iloc[0])} (out of {last30_days_impact_pledges.data['n periods'].iloc[0]} similar periods)",
+            value=f"+{millify(last30_days_impact_citizens.data['value'].iloc[0], precision=2)}",
+            delta=f"Ranking: {format_ordinal(last30_days_impact_citizens.data['rank'].iloc[0])}/{last30_days_impact_pledges.data['n periods'].iloc[0]}",
             delta_color="off",
+            help=f"Ranking of year-on-year 30 days periods at the same day-of-year, for the whole of Star Citizen's funding history.",
         )
 
         st.markdown(
-            f"""Since the {thirty_days_ago.strftime('%d %b %Y')} how strong have growth indicators been?
-                    To assess this, let's compare the last 30 days' figures to prior years at the same periods.
-                    """
+            f"""**Since the {thirty_days_ago.strftime('%d %b %Y')}** how strong have growth indicators been?
+                The above figures show how the last 30 days' figures compare to prior years'.
+            """
         )
+
+        st.markdown(f"Day of year: {day_of_year}")
+
 
     with middle_right:
         st.header("Funding History")

@@ -1,5 +1,5 @@
 import streamlit as st
-from millify import prettify, millify
+from millify import millify
 from src.visuals import charts
 
 CAP_LAST_DAYS: int = None

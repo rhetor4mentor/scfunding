@@ -101,9 +101,9 @@ def format_ordinal(x: float) -> str:
         return f"{x}{('th' if 4 <= x % 100 <= 20 else {1: 'st', 2: 'nd', 3: 'rd'}.get(x % 10, 'th'))}"
 
 
-def load_config() -> dict:
+def load_config(filename="config.yaml") -> dict:
     script_dir = os.path.dirname(os.path.abspath(__file__))
-    path = os.path.join(script_dir, "config.yaml")
+    path = os.path.join(script_dir, filename)
     try:
         with open(path, "r") as file:
             config = yaml.safe_load(file)

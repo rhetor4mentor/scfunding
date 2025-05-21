@@ -17,6 +17,29 @@ from .. import utils
 
 YEAR_COMPARISON_COLORS = ["#219ebc", "#023047"]
 
+# palettes = utils.load_config(filename="palettes.yaml")
+
+palettes = dict(
+    quarter_months = [
+        #Q1
+        "#2171b5", # dark blue
+        "#6baed6", # medium blue
+        "#c6dbef", # light blue
+        #Q2
+        "#e6550d", # dark orange
+        "#fdae6b", # medium orange
+        "#fdd0a2", # light orange
+        #Q3
+        "#238b45", # dark green
+        "#74c476", # medium green
+        "#c7e9c0", # light green
+        #Q4
+        "#54278f", # dark purple        
+        "#9e9ac8", # medium purple
+        "#dadaeb", # light purple
+    ]
+)
+
 
 def generate_tooltip(dataframe: pd.DataFrame) -> List[alt.Tooltip]:
     """
@@ -164,7 +187,6 @@ def plot_line_chart(
 
 def plot_all_years(
     ts_weekly: pd.DataFrame,
-    ts_annual: pd.DataFrame,
     metric="pledges",
     show_title: bool = True,
 ) -> alt.Chart:
@@ -172,6 +194,8 @@ def plot_all_years(
     Main funding tracker visualisation
     """
 
+    latest_date = pd.to_datetime(max(ts_weekly.index.values))
+    
     if metric == "pledges":
         x = "pledge"
         x_format = "$,.0f"
@@ -191,8 +215,8 @@ def plot_all_years(
     )
 
     tooltips = generate_tooltip(ts_weekly)
-    tooltips_a = generate_tooltip(ts_annual)
 
+    ts_weekly["is_current"] = (ts_weekly["year"] == latest_date.year)
     ts_weekly["quarter_label"] = ts_weekly["quarter"].apply(lambda x: f"Q{x}")
     total = ts_weekly.tail(1)[f"total_{x}"].iloc[0]
     subtitle = (
@@ -200,12 +224,21 @@ def plot_all_years(
     ) + "historically"
 
     chart_year = (
-        alt.Chart(ts_weekly)
+        alt.Chart(ts_weekly.query("delta_pledge>0"))
         .mark_bar(color="#526A71")
         .encode(
             x=x_axis,
-            y=alt.Y("year:O", title="Year"),
+            y=alt.Y("year:O", title="Year",),
             tooltip=tooltips,
+            # color=alt.Color("month:N", scale=alt.Scale(scheme="category20c")),
+            color=alt.Color(
+                "month:O",
+                scale=alt.Scale(
+                    domain=list(range(1, 13)),
+                    range=palettes["quarter_months"],
+                ),
+                title="Month"
+            )
         )
         .properties(
             width=200,
@@ -213,46 +246,8 @@ def plot_all_years(
         )
     )
 
-    chart_year_total = (
-        alt.Chart(ts_annual)
-        .mark_bar()
-        .encode(
-            x=x_axis,
-            color=alt.Color("year:N", legend=None).scale(scheme="category20c"),
-            tooltip=tooltips_a,
-        )
-        .properties(width=200)
-    )
-
-    chart_quarters = (
-        alt.Chart(ts_weekly)
-        .mark_bar()
-        .encode(
-            x=x_axis,
-            y=alt.Y("year:O", title="Year"),
-            color=alt.Color("month:N"),
-            tooltip=tooltips,
-            column=alt.Column("quarter_label:O", title=None, spacing=50),
-        )
-        .properties(width=120, title="Breakdown by quarter")
-    )
-
-    chart_quarters_totals = (
-        alt.Chart(ts_weekly)
-        .mark_bar()
-        .encode(
-            x=x_axis,
-            color=alt.Color("month:N"),
-            tooltip=tooltips,
-            column=alt.Column("quarter_label:O", title=None, spacing=50),
-        )
-        .properties(
-            width=120,
-        )
-    )
-
     chart = (
-        (chart_year & chart_year_total) | (chart_quarters & chart_quarters_totals)
+        (chart_year )
     ).resolve_scale(color="independent")
 
     if show_title:
