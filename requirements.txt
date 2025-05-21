@@ -1,6 +1,7 @@
 altair>=5.5.0
 ipykernel>=6.28.0
 loguru>=0.7.3
+millify>=0.1.1
 pandas>=2.2.2
 pingouin>=0.5.5
 prophet>=1.1.6
