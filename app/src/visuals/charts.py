@@ -194,8 +194,6 @@ def plot_all_years(
     Main funding tracker visualisation
     """
 
-    latest_date = pd.to_datetime(max(ts_weekly.index.values))
-    
     if metric == "pledges":
         x = "pledge"
         x_format = "$,.0f"
@@ -216,7 +214,6 @@ def plot_all_years(
 
     tooltips = generate_tooltip(ts_weekly)
 
-    ts_weekly["is_current"] = (ts_weekly["year"] == latest_date.year)
     ts_weekly["quarter_label"] = ts_weekly["quarter"].apply(lambda x: f"Q{x}")
     total = ts_weekly.tail(1)[f"total_{x}"].iloc[0]
     subtitle = (
